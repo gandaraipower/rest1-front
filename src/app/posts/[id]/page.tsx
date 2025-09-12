@@ -9,8 +9,11 @@ export default function Home() {
 
     const [post, setPost] = useState<PostDto | null>(null);
   
+    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+
     async function fetchPost() {
-      const res = await fetch(`http://localhost:8080/api/v1/posts/${id}`);
+      const res = await fetch(`${baseUrl}/api/v1/posts/${id}`);
       const data = await res.json();
       setPost(data);
     }
