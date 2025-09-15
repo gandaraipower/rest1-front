@@ -13,10 +13,11 @@ export default function Home() {
 
   const [post, setPost] = useState<PostDto | null>(null);
   const [postComments, setPostComments] = useState<PostCommentsDto[] | null>(null);
+
   useEffect(() => {
     fetchApi(`/api/v1/posts/${postId}`).then(setPost);
     fetchApi(`/api/v1/posts/${postId}/comments`).then(setPostComments);
-  }, []);
+  }, [postComments]);
 
   const deletePost = (id: number) => {
 
@@ -33,7 +34,10 @@ export default function Home() {
       method: "DELETE",
     }).then((data) => {
       alert(data.msg);
-      
+
+      if(postComments ===null) return;
+      //리렌더링을 위한 댓글 배열 교체 필요
+      setPostComments(postComments.filter((comment) => comment.id !== commentId));
     });
   };
 
