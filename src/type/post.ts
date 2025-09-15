@@ -5,3 +5,10 @@ export type PostDto = {
     createDate: string;
     modifyDate: string;
 }
+
+export type PostCommentsDto = {
+    id: number;
+    content: string;
+    createDate: string;
+    modifyDate: string;
+}
