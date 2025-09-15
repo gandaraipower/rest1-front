@@ -1,7 +1,7 @@
 export type PostDto = {
     id: number;
-    subject: string;
-    body: string;
+    title: string;
+    content: string;
     createDate: string;
     modifyDate: string;
 }
