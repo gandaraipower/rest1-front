@@ -26,6 +26,7 @@ export default function Home() {
         if(titleInput.value.length<2){
             alert("제목은 2글자 이상 입력해주세요.");
             titleInput.focus();
+            return;
         }
 
         if(contentInput.value.length==0){
@@ -36,6 +37,7 @@ export default function Home() {
         if(contentInput.value.length<2){
             alert("내용은 2글자 이상 입력해주세요.");
             contentInput.focus();
+            return;
         }
 
 
