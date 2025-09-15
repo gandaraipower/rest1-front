@@ -2,14 +2,18 @@
 
 import { fetchApi } from "@/lib/client";
 import { PostDto } from "@/type/post";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Home() {
     
     const router = useRouter();
+     const { id } = useParams();
+    const [post,setPost]=useState<PostDto | null>(null);
 
-   
+     useEffect(() => {
+        fetchApi(`/api/v1/posts/${id}`).then(setPost);
+    }, []);
     const handleSubmit = (e:any) => {
         e.preventDefault();
 
@@ -26,31 +30,31 @@ export default function Home() {
             contentInput.focus();
         }
 
-
-        fetchApi(`/api/v1/posts`,{
-            method: "POST",
+        fetchApi(`/api/v1/posts/${id}`,{
+            method: "PUT",
             body:JSON.stringify({
                 title:titleInput.value,
                 content: contentInput.value,
             })
         }).then((data)=>{
             alert(data.msg);
-            router.replace(`/posts/${data.data.postDto.id}`)
-        }
-    )
-        
+            router.replace(`/posts/${id}`)
+        });
     };
 
 
+    if(post===null){
+        return <div>Loading...</div>;
+    }
     
     return (
     <>    
-    <h1 className="text-center">새 글 작성</h1>
+    <h1 className="text-center">글 수정</h1>
         <form className="flex flex-col gap-2 p-2" onSubmit={handleSubmit}>
             <input className="border border-gray-300 rounded p-2"
-             type="text" name="title" placeholder="제목" />
+             type="text" name="title" placeholder="제목" defaultValue={post.title}/>
             <textarea className="border border-gray-300 rounded p-2" 
-            name="content" placeholder="내용" />
+            name="content" placeholder="내용" defaultValue={post.content}/>
             <button type="submit">저장</button> 
         </form>
     </>
