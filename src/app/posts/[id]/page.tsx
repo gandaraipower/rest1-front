@@ -15,7 +15,11 @@ export default function Home() {
   const [postComments, setPostComments] = useState<PostCommentsDto[] | null>(null);
 
   useEffect(() => {
-    fetchApi(`/api/v1/posts/${postId}`).then(setPost);
+    fetchApi(`/api/v1/posts/${postId}`).then(setPost)
+      .catch((error) => { 
+        alert(error);
+        router.replace("/posts");
+      });
     fetchApi(`/api/v1/posts/${postId}/comments`).then(setPostComments);
   }, []);
 

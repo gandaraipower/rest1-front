@@ -2,9 +2,7 @@
 
 import { fetchApi } from "@/lib/client";
 import { PostDto } from "@/type/post";
-import { useRouter } from "next/navigation";
-import { title } from "process";
-import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";import { useEffect, useState } from "react";
 
 export default function Home() {
     
