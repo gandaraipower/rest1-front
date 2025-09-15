@@ -3,6 +3,7 @@
 import { fetchApi } from "@/lib/client";
 import { PostDto } from "@/type/post";
 import { useRouter } from "next/navigation";
+import { title } from "process";
 import { useEffect, useState } from "react";
 
 export default function Home() {
@@ -21,8 +22,19 @@ export default function Home() {
             alert("제목을 입력해주세요.");
             titleInput.focus();
         }
+
+        if(titleInput.value.length<2){
+            alert("제목은 2글자 이상 입력해주세요.");
+            titleInput.focus();
+        }
+
         if(contentInput.value.length==0){
             alert("내용을 입력해주세요.");
+            contentInput.focus();
+        }
+        
+        if(contentInput.value.length<2){
+            alert("내용은 2글자 이상 입력해주세요.");
             contentInput.focus();
         }
 
@@ -34,7 +46,6 @@ export default function Home() {
                 content: contentInput.value,
             })
         }).then((data)=>{
-            alert(data.msg);
             router.replace(`/posts/${data.data.postDto.id}`)
         }
     )
@@ -48,9 +59,9 @@ export default function Home() {
     <h1 className="text-center">새 글 작성</h1>
         <form className="flex flex-col gap-2 p-2" onSubmit={handleSubmit}>
             <input className="border border-gray-300 rounded p-2"
-             type="text" name="title" placeholder="제목" />
+             type="text" name="title" placeholder="제목" maxLength={10}/>
             <textarea className="border border-gray-300 rounded p-2" 
-            name="content" placeholder="내용" />
+            name="content" placeholder="내용" maxLength={100}/>
             <button type="submit">저장</button> 
         </form>
     </>

@@ -1,14 +1,14 @@
 "use client";
 
 import { fetchApi } from "@/lib/client";
-import { PostDto,PostCommentsDto } from "@/type/post";
+import { PostDto, PostCommentsDto } from "@/type/post";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Home() {
-  const { id : postId } = useParams();
+  const { id: postId } = useParams();
   const router = useRouter();
 
   const [post, setPost] = useState<PostDto | null>(null);
@@ -17,7 +17,7 @@ export default function Home() {
   useEffect(() => {
     fetchApi(`/api/v1/posts/${postId}`).then(setPost);
     fetchApi(`/api/v1/posts/${postId}/comments`).then(setPostComments);
-  }, [postComments]);
+  }, []);
 
   const deletePost = (id: number) => {
 
@@ -35,7 +35,7 @@ export default function Home() {
     }).then((data) => {
       alert(data.msg);
 
-      if(postComments ===null) return;
+      if (postComments === null) return;
       //리렌더링을 위한 댓글 배열 교체 필요
       setPostComments(postComments.filter((comment) => comment.id !== commentId));
     });
@@ -71,14 +71,14 @@ export default function Home() {
         <ul className="flex flex-col gap-2">
           {postComments.map((postComment) => (
             <li key={postComment.id} className="flex gap-2 items-center">
-              <span>{postComment.id} :</span> 
+              <span>{postComment.id} :</span>
               <span>{postComment.content}</span>
               <button className="border-2 p-2 rounded"
               >수정</button>
               <button className="border-2 p-2 rounded text-red-500"
-               onClick={() =>{
-                deletePostComment(postComment.id);
-              }}
+                onClick={() => {
+                  deletePostComment(postComment.id);
+                }}
               >삭제</button>
             </li>
           ))}
