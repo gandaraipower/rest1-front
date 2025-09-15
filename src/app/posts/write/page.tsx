@@ -2,12 +2,12 @@
 
 import { fetchApi } from "@/lib/client";
 import { PostDto } from "@/type/post";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Home() {
     
-    const [posts, setPosts] = useState<PostDto[]>([]);
-
+    const router = useRouter();
 
    
     const handleSubmit = (e:any) => {
@@ -27,21 +27,18 @@ export default function Home() {
         }
 
 
-        fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/posts`,{
+        fetchApi(`/api/v1/posts`,{
             method: "POST",
-            headers:{
-                "Content-Type" : "application/json",
-            },
-            body:  
-                JSON.stringify({
-                    title: titleInput.value,
-                    content: titleInput.value,
-        }),
-    })
-        .then((res)=>res.json())
-        .then((data)=> {
+            body:JSON.stringify({
+                title:titleInput.value,
+                content: contentInput.value,
+            })
+        }).then((data)=>{
             alert(data.msg);
-        });
+            router.push(`/posts/${data.data.postDto.id}`)
+        }
+    )
+        
     };
 
         
@@ -51,8 +48,10 @@ export default function Home() {
     <>    
     <h1 className="text-center">새 글 작성</h1>
         <form className="flex flex-col gap-2 p-2" onSubmit={handleSubmit}>
-            <input type="text" name="title" placeholder="제목" />
-            <textarea name="content" placeholder="내용" />
+            <input className="border border-gray-300 rounded p-2"
+             type="text" name="title" placeholder="제목" />
+            <textarea className="border border-gray-300 rounded p-2" 
+            name="content" placeholder="내용" />
             <button type="submit">저장</button> 
         </form>
     </>
