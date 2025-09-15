@@ -16,7 +16,6 @@ export default function Home() {
 
   return (
     <>
-      <div className="flex flex-col gap-8">
         <h1>글 상세 보기</h1>
 
         {post === null && <div>Loading...</div>}
@@ -28,7 +27,6 @@ export default function Home() {
             <div>내용 : {post.content}</div>
           </div>
         )}
-      </div>
     </>
   );
 }
